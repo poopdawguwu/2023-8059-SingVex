@@ -6,15 +6,7 @@
  * When this callback is fired, it will toggle line 2 of the LCD text between
  * "I was pressed!" and nothing.
  */
-void on_center_button() {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed) {
-		pros::lcd::set_text(2, "I was pressed!");
-	} else {
-		pros::lcd::clear_line(2);
-	}
-}
+void on_center_button() {}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -23,10 +15,15 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
-
-	pros::lcd::register_btn1_cb(on_center_button);
+	Motor leftFront (leftFrontPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
+	Motor leftBack (leftBackPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
+	Motor rightFront (rightFrontPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
+	Motor rightBack (rightBackPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
+    Motor armLeft (armLeftPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
+    Motor armRight (armRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
+    Motor clawLeft (clawLeftPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
+    Motor clawRight (clawRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
+	Controller master (CONTROLLER_MASTER);
 }
 
 /**
@@ -74,20 +71,46 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(1);
-	pros::Motor right_mtr(2);
+	Motor leftFront (leftFrontPort, false);
+	Motor leftBack (leftBackPort, false);
+	Motor rightFront (rightFrontPort, true);
+	Motor rightBack (rightBackPort, true);
+    Motor armLeft (armLeftPort, false);
+    Motor armRight (armRightPort, true);
+	Motor clawLeft (clawLeftPort, false);
+	Motor clawRight (clawRightPort, true);
+	Controller master (CONTROLLER_MASTER);
 
 	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
-		int left = master.get_analog(ANALOG_LEFT_Y);
-		int right = master.get_analog(ANALOG_RIGHT_Y);
+		leftFront.move(master.get_analog(ANALOG_LEFT_Y)); //Base controls
+		leftBack.move(master.get_analog(ANALOG_LEFT_Y));
+		rightFront.move(master.get_analog(ANALOG_RIGHT_Y));
+		rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
 
-		left_mtr = left;
-		right_mtr = right;
+		if (master.get_digital(DIGITAL_L1)){ //Arm controls
+			armLeft.move(127);
+			armRight.move(127);
+		} else if (master.get_digital(DIGITAL_L2)){
+			armLeft.move(-127);
+			armRight.move(-127);
+		} else {
+			armLeft.move(0);
+			armRight.move(0);
+		}
 
-		pros::delay(20);
+		if (master.get_digital(DIGITAL_A)){ //Claw controls
+			clawLeft.move(127);
+			clawRight.move(127);
+		} else if (master.get_digital(DIGITAL_Y)){
+			clawLeft.move(70);
+			clawRight.move(70);
+		} else if (master.get_digital(DIGITAL_X)){
+			clawLeft.move(-70);
+			clawRight.move(-70);
+		} else {
+			clawLeft.move(0);
+			clawRight.move(0);
+		}
+		delay(20);
 	}
 }
