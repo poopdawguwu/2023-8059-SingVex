@@ -19,11 +19,12 @@ void initialize() {
 	Motor leftBack (leftBackPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
 	Motor rightFront (rightFrontPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
 	Motor rightBack (rightBackPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
-    Motor armLeft (armLeftPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
-    Motor armRight (armRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
+    // Motor armLeft (armLeftPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
+    // Motor armRight (armRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
     Motor clawLeft (clawLeftPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
     Motor clawRight (clawRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
 	Controller master (CONTROLLER_MASTER);
+	Task armPIDTask (armPID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "armPIDTask");
 }
 
 /**
@@ -75,8 +76,8 @@ void opcontrol() {
 	Motor leftBack (leftBackPort, false);
 	Motor rightFront (rightFrontPort, true);
 	Motor rightBack (rightBackPort, true);
-    Motor armLeft (armLeftPort, false);
-    Motor armRight (armRightPort, true);
+    // Motor armLeft (armLeftPort, false);
+    // Motor armRight (armRightPort, true);
 	Motor clawLeft (clawLeftPort, false);
 	Motor clawRight (clawRightPort, true);
 	Controller master (CONTROLLER_MASTER);
@@ -87,16 +88,16 @@ void opcontrol() {
 		rightFront.move(master.get_analog(ANALOG_RIGHT_Y));
 		rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
 
-		if (master.get_digital(DIGITAL_L1)){ //Arm controls
-			armLeft.move(127);
-			armRight.move(127);
-		} else if (master.get_digital(DIGITAL_L2)){
-			armLeft.move(-127);
-			armRight.move(-127);
-		} else {
-			armLeft.move(0);
-			armRight.move(0);
-		}
+		// if (master.get_digital(DIGITAL_L1)){ //Arm controls
+		// 	armLeft.move(127);
+		// 	armRight.move(127);
+		// } else if (master.get_digital(DIGITAL_L2)){
+		// 	armLeft.move(-127);
+		// 	armRight.move(-127);
+		// } else {
+		// 	armLeft.move(0);
+		// 	armRight.move(0);
+		// }
 
 		if (master.get_digital(DIGITAL_A)){ //Claw controls
 			clawLeft.move(127);
