@@ -12,10 +12,6 @@ void autonPID(void *ignore) {
 	Motor leftBack (leftBackPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
 	Motor rightFront (rightFrontPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
 	Motor rightBack (rightBackPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
-    Motor armLeft (armLeftPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
-    Motor armRight (armRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
-    Motor clawLeft (clawLeftPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
-    Motor clawRight (clawRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
 
 
     leftFront.tare_position();
