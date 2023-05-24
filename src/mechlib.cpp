@@ -1,33 +1,32 @@
 #include "main.h"
 
-void armPID(void *ignore) {
-    Motor armLeft (armLeftPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
-    Motor armRight (armRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
-    
+void catapultPID(void *ignore) {
+    Motor catapult(catapultPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
+    Rotation rotation(rotationPort, false);
     Controller master(E_CONTROLLER_MASTER);
+    ADILightSensor lightSensor(lightSensorPort);
 
-    double targ = 0, posLeft, posRight, errorLeft, errorRight, derivLeft, derivRight, prevErrorLeft = 0, prevErrorRight = 0;
+    double targ = 0, pos, error, deriv, prevError = 0;
 
     while (true) {
-        if (master.get_digital(DIGITAL_L1)){
-            targ++;
-        } else if (master.get_digital(DIGITAL_L2)){
-            targ--;
+        if (shoot || (lightSensor.get_value()<1750 && master.get_digital(DIGITAL_DOWN))){
+            catapult.move(127);
+            delay(1000);
+            shoot = false;
         }
 
-        posLeft = armLeft.get_position();
-        posRight = armRight.get_position();
+        pos = rotation.get_position();
 
-        errorLeft = targ - posLeft;
-        errorRight = targ - posRight;
+        error = targ - pos;
 
-        derivLeft = errorLeft - prevErrorLeft;
-        derivRight = errorRight - prevErrorRight;
+        deriv = error - prevError;
 
-        armLeft.move(errorLeft*kp + derivLeft*kd);
-        armRight.move(errorRight*kp + derivRight*kd);
+        catapult.move(error*kp + deriv*kd);
 
-        prevErrorLeft = errorLeft;
-        prevErrorRight = errorRight;
+        prevError = error;
     }
+}
+
+void fire(){
+    shoot = true;
 }

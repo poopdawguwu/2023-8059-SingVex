@@ -80,7 +80,11 @@ void opcontrol() {
 		leftBack.move(master.get_analog(ANALOG_LEFT_Y));
 		rightFront.move(master.get_analog(ANALOG_RIGHT_Y));
 		rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
-		
+
+		if (master.get_digital_new_press(DIGITAL_UP)){
+			fire();
+		}
+
 		delay(20);
 	}
 }

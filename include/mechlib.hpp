@@ -1,3 +1,5 @@
-#define kp 2
-#define kd 8
-void armPID(void* ignore);
+#define kp 20
+#define kd 80
+void catapultPID(void* ignore);
+void fire();
+bool shoot = false;
