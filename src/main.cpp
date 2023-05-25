@@ -85,7 +85,7 @@ void opcontrol() {
 		rightFront.move(master.get_analog(ANALOG_RIGHT_Y));
 		rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
 
-		if (master.get_digital_new_press(DIGITAL_A)){
+		if (master.get_digital_new_press(DIGITAL_X)){
 			fire();
 		}
 
