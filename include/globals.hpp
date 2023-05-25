@@ -1,8 +1,8 @@
-#define leftFrontPort 8
-#define leftBackPort 1
-#define rightFrontPort 10
-#define rightBackPort 2
-#define catapultPort 9
+#define leftFrontPort 12
+#define leftBackPort 20
+#define rightFrontPort 18
+#define rightBackPort 19
+#define catapultPort 10
 #define elevLeftPort 0
 #define elevRightPort 0
 #define rotationPort 0
