@@ -19,7 +19,9 @@ void initialize() {
 	Motor leftBack (leftBackPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
 	Motor rightFront (rightFrontPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
 	Motor rightBack (rightBackPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
-    Motor catapult(catapultPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
+    Motor catapult (catapultPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
+	Motor elevLeft (elevLeftPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
+	Motor elevRight (elevRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
 	Controller master (CONTROLLER_MASTER);
 	Task catapultPIDTask (catapultPID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "armPIDTask");
 }
@@ -73,6 +75,8 @@ void opcontrol() {
 	Motor leftBack (leftBackPort, false);
 	Motor rightFront (rightFrontPort, true);
 	Motor rightBack (rightBackPort, true);
+	Motor elevLeft (elevLeftPort, false);
+	Motor elevRight (elevRightPort, true);
 	Controller master (CONTROLLER_MASTER);
 
 	while (true) {
@@ -81,8 +85,19 @@ void opcontrol() {
 		rightFront.move(master.get_analog(ANALOG_RIGHT_Y));
 		rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
 
-		if (master.get_digital_new_press(DIGITAL_UP)){
+		if (master.get_digital_new_press(DIGITAL_A)){
 			fire();
+		}
+
+		if (master.get_digital(DIGITAL_UP)){
+			elevRight.move(127);
+			elevLeft.move(127);
+		} else if (master.get_digital(DIGITAL_DOWN)){
+			elevLeft.move(-127);
+			elevRight.move(-127);
+		} else {
+			elevLeft.move(0);
+			elevRight.move(0);
 		}
 
 		delay(20);

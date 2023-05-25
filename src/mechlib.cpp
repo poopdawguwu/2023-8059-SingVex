@@ -1,18 +1,21 @@
 #include "main.h"
 
 void catapultPID(void *ignore) {
-    Motor catapult(catapultPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
-    Rotation rotation(rotationPort, false);
-    Controller master(E_CONTROLLER_MASTER);
+    Motor catapult (catapultPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
+    Rotation rotation (rotationPort, true);
+    Controller master (E_CONTROLLER_MASTER);
     ADILightSensor lightSensor(lightSensorPort);
 
     double targ = 0, pos, error, deriv, prevError = 0;
 
     while (true) {
-        if (shoot || (lightSensor.get_value()<1750 && master.get_digital(DIGITAL_DOWN))){
+        if (shoot || (lightSensor.get_value()<1750 && master.get_digital(DIGITAL_X))){
             catapult.move(127);
             delay(1000);
             shoot = false;
+        } else if (master.get_digital(DIGITAL_Y)){
+            catapult.move(80);
+            targ = rotation.get_position();
         }
 
         pos = rotation.get_position();

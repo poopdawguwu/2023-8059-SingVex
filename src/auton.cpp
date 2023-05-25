@@ -64,7 +64,7 @@ void turn(float degrees){
 }
 
 void calibration(){
-    Task autonPIDTask (autonPID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "autonPIDTask");
+    Task autonPIDTask(autonPID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "autonPIDTask");
 
     move(24);
     turn(90);
@@ -73,7 +73,7 @@ void calibration(){
 }
 
 void path1(){
-    Task autonPIDTask (autonPID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "autonPIDTask");
+    Task autonPIDTask(autonPID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "autonPIDTask");
     autonPIDTask.remove();
 }
 
