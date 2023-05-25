@@ -1,5 +1,7 @@
 #include "main.h"
 
+bool shoot = false;
+
 void catapultPID(void *ignore) {
     Motor catapult (catapultPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
     Rotation rotation (rotationPort, true);

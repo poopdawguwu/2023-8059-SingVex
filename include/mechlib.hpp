@@ -2,4 +2,3 @@
 #define kd 80
 void catapultPID(void* ignore);
 void fire();
-bool shoot = false;
