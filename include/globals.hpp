@@ -5,5 +5,5 @@
 #define catapultPort 11
 #define elevLeftPort 0
 #define elevRightPort 0
-#define rotationPort 0
+#define rotationPort 1
 #define lightSensorPort 'A'
