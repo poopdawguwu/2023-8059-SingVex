@@ -71,10 +71,10 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	Motor leftFront (leftFrontPort, false);
-	Motor leftBack (leftBackPort, false);
-	Motor rightFront (rightFrontPort, true);
-	Motor rightBack (rightBackPort, true);
+	Motor leftFront (leftFrontPort, true);
+	Motor leftBack (leftBackPort, true);
+	Motor rightFront (rightFrontPort, false);
+	Motor rightBack (rightBackPort, false);
 	Motor elevLeft (elevLeftPort, false);
 	Motor elevRight (elevRightPort, true);
 	Controller master (CONTROLLER_MASTER);
@@ -85,7 +85,7 @@ void opcontrol() {
 		rightFront.move(master.get_analog(ANALOG_RIGHT_Y));
 		rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
 
-		if (master.get_digital_new_press(DIGITAL_X)){
+		if (master.get_digital_new_press(DIGITAL_L1)){
 			fire();
 		}
 
