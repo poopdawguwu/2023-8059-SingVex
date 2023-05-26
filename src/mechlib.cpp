@@ -3,20 +3,25 @@
 bool shoot = false;
 
 void catapultPID(void *ignore) {
-    Motor catapult (catapultPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
-    Rotation rotation (rotationPort, true);
+    Motor catapult (catapultPort, MOTOR_GEAR_RED, true, MOTOR_ENCODER_DEGREES);
+    Rotation rotation (rotationPort, false);
     Controller master (E_CONTROLLER_MASTER);
     ADILightSensor lightSensor(lightSensorPort);
 
-    double targ = 0, pos, error, deriv, prevError = 0;
+    int targ = 0, pos, error, deriv, prevError = 0;
 
     while (true) {
-        if (shoot || (lightSensor.get_value()<1750 && master.get_digital(DIGITAL_Y))){ //auto
-            catapult.move(127);
-            delay(1000);
+        if (shoot){ //PID
+            catapult.move(-127);
+            delay(500);
             shoot = false;
-        } else if (master.get_digital(DIGITAL_A)){
-            catapult.move(80);
+        } else if (master.get_digital(DIGITAL_L2) && lightSensor.get_value()<700 && error > -300){ //autofire
+            printf("autofire\n");
+            delay(1000);
+            catapult.move(-127);
+            delay(500);
+        } else if (master.get_digital(DIGITAL_A)){ //manual
+            catapult.move(-80);
             targ = rotation.get_position();
         }
 
@@ -27,6 +32,7 @@ void catapultPID(void *ignore) {
         deriv = error - prevError;
 
         catapult.move(error*kp + deriv*kd);
+        printf("%d %f\n", error, (error*kp + deriv*kd));
 
         prevError = error;
     }
@@ -34,4 +40,9 @@ void catapultPID(void *ignore) {
 
 void fire(){
     shoot = true;
+    printf("fired\n");
 }
+
+// Note: This is some voodoo magic shit i dont understand how tf it works now
+// smth gets fucked when u reverse the rotation sensor so i reversed the motor
+// instead which means that the move values are reverse
