@@ -1,4 +1,4 @@
-#define kp 20
-#define kd 80
+#define kp .125
+#define kd .145
 void catapultPID(void* ignore);
 void fire();
