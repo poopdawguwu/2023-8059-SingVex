@@ -79,11 +79,21 @@ void opcontrol() {
 	Motor elevRight (elevRightPort, true);
 	Controller master (CONTROLLER_MASTER);
 
+	bool invert = false;
+	double left = 0, right =0;
+
 	while (true) {
-		leftFront.move(master.get_analog(ANALOG_LEFT_Y)); //Base controls
-		leftBack.move(master.get_analog(ANALOG_LEFT_Y));
-		rightFront.move(master.get_analog(ANALOG_RIGHT_Y));
-		rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
+		if (invert){
+			leftFront.move(-master.get_analog(ANALOG_RIGHT_Y)); //Base controls
+			leftBack.move(-master.get_analog(ANALOG_RIGHT_Y));
+			rightFront.move(-master.get_analog(ANALOG_LEFT_Y));
+			rightBack.move(-master.get_analog(ANALOG_LEFT_Y));
+		} else {
+			leftFront.move(master.get_analog(ANALOG_LEFT_Y)); //Base controls
+			leftBack.move(master.get_analog(ANALOG_LEFT_Y));
+			rightFront.move(master.get_analog(ANALOG_RIGHT_Y));
+			rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
+		}
 
 		if (master.get_digital_new_press(DIGITAL_L1)){
 			fire();
@@ -98,6 +108,10 @@ void opcontrol() {
 		} else {
 			elevLeft.move(0);
 			elevRight.move(0);
+		}
+
+		if (master.get_digital_new_press(DIGITAL_B)){
+			invert = !invert;
 		}
 
 		delay(20);
