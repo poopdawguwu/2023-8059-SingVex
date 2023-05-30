@@ -15,7 +15,7 @@ void catapultPID(void *ignore) {
             catapult.move(-127);
             delay(500);
             shoot = false;
-        } else if (master.get_digital(DIGITAL_L2) && lightSensor.get_value()<700 && error > -300){ //autofire
+        } else if (master.get_digital(DIGITAL_R2) && lightSensor.get_value()<700 && error > -300){ //autofire
             printf("autofire\n");
             delay(1000);
             catapult.move(-127);

@@ -95,7 +95,7 @@ void opcontrol() {
 			rightBack.move(master.get_analog(ANALOG_RIGHT_Y));
 		}
 
-		if (master.get_digital_new_press(DIGITAL_L1)){
+		if (master.get_digital_new_press(DIGITAL_R1)){
 			fire();
 		}
 
