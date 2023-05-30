@@ -5,7 +5,7 @@ bool shoot = false;
 void catapultPID(void *ignore) {
     Motor catapult (catapultPort, MOTOR_GEAR_RED, true, MOTOR_ENCODER_DEGREES);
     Rotation rotation (rotationPort, false);
-    Controller master (E_CONTROLLER_MASTER);
+    Controller master (CONTROLLER_MASTER);
     ADILightSensor lightSensor(lightSensorPort);
 
     int targ = 0, pos, error, deriv, prevError = 0;
