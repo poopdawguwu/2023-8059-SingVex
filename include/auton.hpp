@@ -1,5 +1,5 @@
-#define akp 0
-#define akd 0
+#define akp .4
+#define akd .8
 
 void calibration();
 void path1();
