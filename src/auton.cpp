@@ -1,7 +1,6 @@
 #include "main.h"
-#include "pros/motors.h"
-#define akm 0 //Degrees of wheel turn to 1 inch
-#define akt 0 //Degrees of wheel turn to 1 degree base turn
+#define akm 0.6366197724 //Degrees of wheel turn to 1 inch
+#define akt 3.852210777 //Degrees of wheel turn to 1 degree base turn
 
 
 double targLeft = 0, targRight = 0, errorLeft, errorRight, derivLeft, derivRight, prevErrorLeft = 0, prevErrorRight = 0, leftSpeed, rightSpeed;
