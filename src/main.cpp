@@ -20,10 +20,15 @@ void initialize() {
 	Motor rightFront (rightFrontPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
 	Motor rightBack (rightBackPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
     Motor catapult (catapultPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
-	Motor elevLeft (elevLeftPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
-	Motor elevRight (elevRightPort, MOTOR_GEAR_GREEN, true, MOTOR_ENCODER_DEGREES);
-	Controller master (CONTROLLER_MASTER);
+	Motor elevLeft (elevLeftPort, MOTOR_GEAR_RED, true, MOTOR_ENCODER_DEGREES);
+	Motor elevRight (elevRightPort, MOTOR_GEAR_RED, false, MOTOR_ENCODER_DEGREES);
+	Motor claw (clawPort, MOTOR_GEAR_GREEN, false, MOTOR_ENCODER_DEGREES);
 	Task catapultPIDTask (catapultPID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "armPIDTask");
+	Task elevPIDTask (elevPID, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "elevPIDTask");
+
+	elevLeft.set_brake_mode(MOTOR_BRAKE_HOLD);
+	elevRight.set_brake_mode(MOTOR_BRAKE_HOLD);
+	claw.set_brake_mode(MOTOR_BRAKE_HOLD);
 }
 
 /**
@@ -56,7 +61,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	calibration();
+	path1();
 }
 
 /**
@@ -77,8 +82,7 @@ void opcontrol() {
 	Motor leftBack (leftBackPort, true);
 	Motor rightFront (rightFrontPort, false);
 	Motor rightBack (rightBackPort, false);
-	Motor elevLeft (elevLeftPort, false);
-	Motor elevRight (elevRightPort, true);
+	Motor claw (clawPort, false);
 	Controller master (CONTROLLER_MASTER);
 
 	bool invert = false;
@@ -101,15 +105,12 @@ void opcontrol() {
 			fire();
 		}
 
-		if (master.get_digital(DIGITAL_UP)){
-			elevRight.move(127);
-			elevLeft.move(127);
-		} else if (master.get_digital(DIGITAL_DOWN)){
-			elevLeft.move(-127);
-			elevRight.move(-127);
+		if (master.get_digital(DIGITAL_L1)){
+			claw.move(127);
+		} else if (master.get_digital(DIGITAL_L2)){
+			claw.move(-127);
 		} else {
-			elevLeft.move(0);
-			elevRight.move(0);
+			claw.move(0);
 		}
 
 		if (master.get_digital_new_press(DIGITAL_B)){

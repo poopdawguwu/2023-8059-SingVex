@@ -35,9 +35,11 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
+#include "pros/apix.h"
 #include "globals.hpp"
 #include "mechlib.hpp"
 #include "auton.hpp"
+#include "GUI.hpp"
 
 /**
  * You should add more #includes here
