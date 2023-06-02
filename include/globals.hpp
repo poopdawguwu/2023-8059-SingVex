@@ -4,7 +4,7 @@
 #define rightBackPort 19
 #define catapultPort 11
 #define elevLeftPort 2
-#define elevRightPort 10
+#define elevRightPort 8
 #define clawPort 9
 #define rotationPort 1
 #define lightSensorPort 'A'
