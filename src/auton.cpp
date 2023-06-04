@@ -108,11 +108,9 @@ void path1(){
     breaker = false;
     autonPIDTask.remove();
     
-    setTarg(90);
+    setTarg(840);
     leftFront.move(-30);
     leftBack.move(-30);
     rightFront.move(-30);
     rightBack.move(-30);
 }
-
-void path2(){}
