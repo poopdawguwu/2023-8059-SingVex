@@ -3,4 +3,3 @@
 
 void calibration();
 void path1();
-void path2();
