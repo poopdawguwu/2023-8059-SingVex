@@ -1,5 +1,4 @@
 #include "main.h"
-#include <algorithm>
 #define akm 17.62947066 //Degrees of motor turn to 1 inch
 #define akt 2.5 //Degrees of motor turn to 1 degree base turn
 
