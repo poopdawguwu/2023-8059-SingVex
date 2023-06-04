@@ -64,9 +64,9 @@ void elevPID(void *ignore){
 
     while (true){
         if (master.get_digital(DIGITAL_UP)){
-            targ += .05;
+            targ += .01;
         } else if (master.get_digital(DIGITAL_DOWN)){
-            targ -= .05;
+            targ -= .01;
         }
 
         posLeft = elevLeft.get_position();
